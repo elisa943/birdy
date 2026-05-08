@@ -27,6 +27,7 @@ const LOGO_FILENAME = 'twitter_logo2.png';
 const LOGO_URL = chrome.runtime.getURL(`images/${LOGO_FILENAME}`);
 const FAVICON_URL = LOGO_URL;
 const BIRDY_BG = '#a8d8ff';
+const LOGO_BG_DARK = BIRDY_BG;
 const SETTINGS_LABEL = 'Settings';
 const SETTINGS_PATH = '/settings';
 const SEARCH_STYLES = {
@@ -60,8 +61,17 @@ const applyLogoSwap = () => {
     return;
   }
 
-  if (!logoLink.style.backgroundImage.includes(LOGO_FILENAME)) {
+  const currentBg = logoLink.style.backgroundImage || '';
+  if (!currentBg.includes(LOGO_FILENAME)) {
     logoLink.style.backgroundImage = `url("${LOGO_URL}")`;
+  }
+
+  const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (isDark) {
+    logoLink.style.backgroundColor = LOGO_BG_DARK;
+    logoLink.style.borderRadius = '9999px';
+  } else {
+    logoLink.style.backgroundColor = '';
   }
 };
 
