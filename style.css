@@ -1,3 +1,7 @@
+:root {
+  --birdy-bg: #a8d8ff;
+}
+
 /* Select by stable attributes */
 a[href="/i/grok"],
 a[aria-label="Grok"],
@@ -63,7 +67,7 @@ a[aria-label="X"] svg {
 
 @media (prefers-color-scheme: dark) {
   a[aria-label="X"] {
-    background-color: #a8d8ff;
+    background-color: var(--birdy-bg);
     border-radius: 9999px;
   }
 }
@@ -72,13 +76,36 @@ a[aria-label="X"] svg {
 html,
 body,
 #react-root {
-  background-color: #a8d8ff !important;
+  background-color: var(--birdy-bg) !important;
 }
 
 /* Primary column background override */
 [data-testid="primaryColumn"],
 [data-testid="primaryColumn"] > div {
-  background-color: #a8d8ff !important;
+  background-color: var(--birdy-bg) !important;
+}
+
+/* Settings page section backgrounds */
+section[aria-label="Section navigation"],
+section[aria-label="Section details"],
+section[aria-label="Section navigation"] > div,
+section[aria-label="Section details"] > div,
+div:has(> section[aria-label="Section navigation"]),
+div:has(> section[aria-label="Section details"]) {
+  background-color: var(--birdy-bg) !important;
+}
+
+section[aria-label="Section navigation"] div,
+section[aria-label="Section details"] div,
+section[aria-label="Section navigation"] [style*="background-color: rgb(255, 255, 255)"],
+section[aria-label="Section navigation"] [style*="background-color: rgba(255, 255, 255"],
+section[aria-label="Section details"] [style*="background-color: rgb(255, 255, 255)"],
+section[aria-label="Section details"] [style*="background-color: rgba(255, 255, 255"],
+section[aria-label="Section navigation"] [class~="r-14lw9ot"],
+section[aria-label="Section navigation"] [class~="r-6026j"],
+section[aria-label="Section details"] [class~="r-14lw9ot"],
+section[aria-label="Section details"] [class~="r-6026j"] {
+  background-color: var(--birdy-bg) !important;
 }
 
 [data-testid="primaryColumn"] [style*="background-color: rgb(255, 255, 255)"],
@@ -91,7 +118,7 @@ body,
 [data-testid="primaryColumn"] [style*="background-color: rgba(245, 248, 250"],
 [data-testid="primaryColumn"] [class~="r-14lw9ot"],
 [data-testid="primaryColumn"] [class~="r-6026j"] {
-  background-color: #a8d8ff !important;
+  background-color: var(--birdy-bg) !important;
 }
 
 /* Separator/divider lines */
@@ -104,7 +131,7 @@ body,
 [data-testid="primaryColumn"] [style*="border-color: rgba(255, 255, 255"],
 [data-testid="primaryColumn"] [class~="r-j5o65s"],
 [data-testid="primaryColumn"] [class~="r-qklmqi"] {
-  border-color: #a8d8ff !important;
+  border-color: var(--birdy-bg) !important;
 }
 
 /* Search bar background overrides */
@@ -112,7 +139,7 @@ form[aria-label="Search"],
 form[aria-label="Search"] > div,
 form[aria-label="Search"] [data-testid="SearchBox_Search_Input_label"],
 form[aria-label="Search"] [data-testid="SearchBox_Search_Input"] {
-  background-color: #a8d8ff !important;
+  background-color: var(--birdy-bg) !important;
 }
 
 form[aria-label="Search"],
@@ -123,11 +150,35 @@ form[aria-label="Search"] [data-testid="SearchBox_Search_Input_label"] {
   background-clip: padding-box;
 }
 
+form[aria-label="Search Settings"],
+form[aria-label="Search Settings"] > div,
+form[aria-label="Search Settings"] [role="combobox"],
+form[aria-label="Search Settings"] input {
+  background-color: var(--birdy-bg) !important;
+}
+
+form[aria-label="Search Settings"],
+form[aria-label="Search Settings"] > div,
+form[aria-label="Search Settings"] [role="combobox"] {
+  border-radius: 9999px !important;
+  overflow: hidden;
+  background-clip: padding-box;
+}
+
+form[aria-label="Search Settings"] * {
+  background-color: transparent !important;
+}
+
+form[aria-label="Search Settings"],
+form[aria-label="Search Settings"] > div {
+  background-color: var(--birdy-bg) !important;
+}
+
 /* Trending block background */
 div[aria-label="Trending"],
 div[aria-label="Trending"] > div,
 div[aria-label="Trending"] > div > div,
 div[aria-label="Trending"] section,
 div[aria-label="Trending"] [role="region"] {
-  background-color: #a8d8ff !important;
+  background-color: var(--birdy-bg) !important;
 }
