@@ -15,7 +15,11 @@ const HIDE_SELECTORS = [
   'div[data-testid="GrokDrawer"]',
   'button[data-testid="GrokDrawerHeader"]',
   'button[aria-label="Grok"]',
-  'div[data-testid="news_sidebar"]'
+  'div[data-testid="news_sidebar"]',
+  'section[aria-label="Today\'s news"]',
+  'div[aria-label="Today\'s news"]',
+  'section[aria-label="Who to follow"]',
+  'div[aria-label="Who to follow"]'
 ];
 
 const HIDE_SELECTORS_STRING = HIDE_SELECTORS.join(',');
