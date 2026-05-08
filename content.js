@@ -24,8 +24,9 @@ const MORE_BUTTON_SELECTOR = 'button[data-testid="AppTabBar_More_Menu"]';
 const SEARCH_FORM_SELECTOR = 'form[aria-label="Search"]';
 const MORE_BUTTON_DATASET_KEY = 'birdySettingsConverted';
 const LOGO_FILENAME = 'twitter_logo2.png';
-const LOGO_URL = chrome.runtime.getURL(`images/${LOGO_FILENAME}`);
-const FAVICON_URL = LOGO_URL;
+const LOGO_PATH = `images/${LOGO_FILENAME}`;
+const LOGO_URL = chrome.runtime.getURL(LOGO_PATH);
+const FAVICON_URL = chrome.runtime.getURL(LOGO_PATH);
 const BIRDY_BG = '#a8d8ff';
 const LOGO_BG_DARK = BIRDY_BG;
 const SETTINGS_LABEL = 'Settings';
@@ -108,8 +109,15 @@ const applySearchStyling = () => {
     return;
   }
 
+  const targets = [form];
   const parent = form.parentElement;
-  const targets = [form, parent, parent?.parentElement].filter(isHTMLElement);
+  if (isHTMLElement(parent)) {
+    targets.push(parent);
+    if (isHTMLElement(parent.parentElement)) {
+      targets.push(parent.parentElement);
+    }
+  }
+
   targets.forEach((node) => {
     applyInlineStyles(node, SEARCH_STYLES);
   });
