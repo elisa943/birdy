@@ -18,18 +18,47 @@ const HIDE_SELECTORS = [
   'div[data-testid="news_sidebar"]'
 ];
 
+const HIDE_SELECTORS_STRING = HIDE_SELECTORS.join(',');
 const LOGO_SELECTOR = 'a[aria-label="X"]';
 const MORE_BUTTON_SELECTOR = 'button[data-testid="AppTabBar_More_Menu"]';
+const SEARCH_FORM_SELECTOR = 'form[aria-label="Search"]';
+const MORE_BUTTON_DATASET_KEY = 'birdySettingsConverted';
 const LOGO_FILENAME = 'twitter_logo2.png';
-const LOGO_URL = chrome.runtime.getURL(`images/${LOGO_FILENAME}`);
-const FAVICON_URL = chrome.runtime.getURL('images/twitter_logo2.png');
-const LOGO_BG_DARK = '#a8d8ff';
-const SEARCH_BG = '#a8d8ff';
+const LOGO_PATH = `images/${LOGO_FILENAME}`;
+const LOGO_URL = chrome.runtime.getURL(LOGO_PATH);
+const FAVICON_URL = chrome.runtime.getURL(LOGO_PATH);
+const BIRDY_BG = '#a8d8ff';
+const LOGO_BG_DARK = BIRDY_BG;
 const SETTINGS_LABEL = 'Settings';
+const SETTINGS_PATH = '/settings';
+const SEARCH_STYLES = {
+  'background-color': BIRDY_BG,
+  'border-color': BIRDY_BG,
+  'box-shadow': 'none'
+};
+
+const isHTMLElement = (node) => node instanceof HTMLElement;
+
+const applyInlineStyles = (element, styles) => {
+  Object.entries(styles).forEach(([property, value]) => {
+    if (element.style.getPropertyValue(property) !== value) {
+      element.style.setProperty(property, value);
+    }
+  });
+};
+
+const hideElements = () => {
+  const nodes = document.querySelectorAll(HIDE_SELECTORS_STRING);
+  nodes.forEach((node) => {
+    if (isHTMLElement(node) && node.style.display !== 'none') {
+      node.style.setProperty('display', 'none', 'important');
+    }
+  });
+};
 
 const applyLogoSwap = () => {
   const logoLink = document.querySelector(LOGO_SELECTOR);
-  if (!(logoLink instanceof HTMLElement)) {
+  if (!isHTMLElement(logoLink)) {
     return;
   }
 
@@ -75,32 +104,36 @@ const applyFaviconSwap = () => {
 };
 
 const applySearchStyling = () => {
-  const form = document.querySelector('form[aria-label="Search"]');
-  if (!(form instanceof HTMLElement)) {
+  const form = document.querySelector(SEARCH_FORM_SELECTOR);
+  if (!isHTMLElement(form)) {
     return;
   }
 
-  const targets = [form, form.parentElement, form.parentElement?.parentElement];
-  targets.forEach((node) => {
-    if (node instanceof HTMLElement) {
-      node.style.backgroundColor = SEARCH_BG;
-      node.style.borderColor = SEARCH_BG;
-      node.style.boxShadow = 'none';
+  const targets = [form];
+  const parent = form.parentElement;
+  if (isHTMLElement(parent)) {
+    targets.push(parent);
+    if (isHTMLElement(parent.parentElement)) {
+      targets.push(parent.parentElement);
     }
+  }
+
+  targets.forEach((node) => {
+    applyInlineStyles(node, SEARCH_STYLES);
   });
 };
 
 const applyMoreToSettings = () => {
   const button = document.querySelector(MORE_BUTTON_SELECTOR);
-  if (!(button instanceof HTMLElement)) {
+  if (!isHTMLElement(button)) {
     return;
   }
 
-  if (button.dataset.fgrokConverted === 'true') {
+  if (button.dataset[MORE_BUTTON_DATASET_KEY] === 'true') {
     return;
   }
 
-  button.dataset.fgrokConverted = 'true';
+  button.dataset[MORE_BUTTON_DATASET_KEY] = 'true';
   button.setAttribute('aria-label', SETTINGS_LABEL);
 
   const spans = button.querySelectorAll('span');
@@ -115,32 +148,38 @@ const applyMoreToSettings = () => {
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      window.location.href = '/settings';
+      window.location.href = SETTINGS_PATH;
     },
     true
   );
 };
 
-const hideGrok = () => {
-  const nodes = document.querySelectorAll(HIDE_SELECTORS.join(','));
-  nodes.forEach((node) => {
-    if (node instanceof HTMLElement && node.style.display !== 'none') {
-      node.style.setProperty('display', 'none', 'important');
-    }
-  });
-
+const applyBirdyTweaks = () => {
+  hideElements();
   applyLogoSwap();
   applyFaviconSwap();
   applySearchStyling();
   applyMoreToSettings();
 };
 
-const startObserver = () => {
-  hideGrok();
+const scheduleTweaks = (() => {
+  let scheduled = false;
+  return () => {
+    if (scheduled) {
+      return;
+    }
 
-  const observer = new MutationObserver(() => {
-    hideGrok();
-  });
+    scheduled = true;
+    requestAnimationFrame(() => {
+      scheduled = false;
+      applyBirdyTweaks();
+    });
+  };
+})();
+
+const startObserver = () => {
+  scheduleTweaks();
+  const observer = new MutationObserver(scheduleTweaks);
 
   const target = document.body || document.documentElement;
   if (!target) {
