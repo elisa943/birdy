@@ -1,0 +1,133 @@
+/* Select by stable attributes */
+a[href="/i/grok"],
+a[aria-label="Grok"],
+div[data-testid="GrokDrawerHeader"],
+div[data-testid="GrokDrawerHeader"] button,
+aside[aria-label="Subscribe to Premium"],
+a[href="/i/jf/creators/studio"],
+a[aria-label="Creator Studio"],
+a[href="/i/premium_sign_up"],
+a[aria-label="Premium"],
+a[data-testid="premium-signup-tab"],
+button[aria-label="Grok actions"],
+button[data-testid="grokImgGen"],
+button[aria-label="Generate image"] {
+  display: none !important;
+}
+
+div[data-testid="GrokDrawer"],
+button[data-testid="GrokDrawerHeader"],
+button[aria-label="Grok"] {
+  display: none !important;
+}
+
+div[data-testid="news_sidebar"],
+div:has(> div[data-testid="news_sidebar"]) {
+  display: none !important;
+}
+
+/* More menu: keep only Settings and privacy */
+div[role="menu"] a:not([data-testid="settings"]) {
+  display: none !important;
+}
+
+div[role="menu"] div:has(> a:not([data-testid="settings"])) {
+  display: none !important;
+}
+
+div[role="menu"] [role="separator"] {
+  display: none !important;
+}
+
+/* Hide "Who to follow" section */
+aside[aria-label="Who to follow"],
+a[href^="/i/connect_people"],
+div.r-1bro5k0 > aside[aria-label="Who to follow"],
+div.r-1bro5k0:has(aside[aria-label="Who to follow"]),
+div:has(> aside[aria-label="Who to follow"]),
+div:has(> div.r-1bro5k0 > aside[aria-label="Who to follow"]) {
+  display: none !important;
+}
+
+/* Replace the X logo with the old Twitter logo */
+a[aria-label="X"] {
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+a[aria-label="X"] svg {
+  opacity: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  a[aria-label="X"] {
+    background-color: #a8d8ff;
+    border-radius: 9999px;
+  }
+}
+
+/* Global background override */
+html,
+body,
+#react-root {
+  background-color: #a8d8ff !important;
+}
+
+/* Primary column background override */
+[data-testid="primaryColumn"],
+[data-testid="primaryColumn"] > div {
+  background-color: #a8d8ff !important;
+}
+
+[data-testid="primaryColumn"] [style*="background-color: rgb(255, 255, 255)"],
+[data-testid="primaryColumn"] [style*="background-color: rgba(255, 255, 255"],
+[data-testid="primaryColumn"] [style*="background-color: rgb(247, 249, 249)"],
+[data-testid="primaryColumn"] [style*="background-color: rgba(247, 249, 249"],
+[data-testid="primaryColumn"] [style*="background-color: rgb(239, 243, 244)"],
+[data-testid="primaryColumn"] [style*="background-color: rgba(239, 243, 244"],
+[data-testid="primaryColumn"] [style*="background-color: rgb(245, 248, 250)"],
+[data-testid="primaryColumn"] [style*="background-color: rgba(245, 248, 250"],
+[data-testid="primaryColumn"] [class~="r-14lw9ot"],
+[data-testid="primaryColumn"] [class~="r-6026j"] {
+  background-color: #a8d8ff !important;
+}
+
+/* Separator/divider lines */
+[data-testid="primaryColumn"] hr,
+[data-testid="primaryColumn"] [style*="border-color: rgb(239, 243, 244)"],
+[data-testid="primaryColumn"] [style*="border-color: rgba(239, 243, 244"],
+[data-testid="primaryColumn"] [style*="border-color: rgb(247, 249, 249)"],
+[data-testid="primaryColumn"] [style*="border-color: rgba(247, 249, 249"],
+[data-testid="primaryColumn"] [style*="border-color: rgb(255, 255, 255)"],
+[data-testid="primaryColumn"] [style*="border-color: rgba(255, 255, 255"],
+[data-testid="primaryColumn"] [class~="r-j5o65s"],
+[data-testid="primaryColumn"] [class~="r-qklmqi"] {
+  border-color: #a8d8ff !important;
+}
+
+/* Search bar background overrides */
+form[aria-label="Search"],
+form[aria-label="Search"] > div,
+form[aria-label="Search"] [data-testid="SearchBox_Search_Input_label"],
+form[aria-label="Search"] [data-testid="SearchBox_Search_Input"] {
+  background-color: #a8d8ff !important;
+}
+
+form[aria-label="Search"],
+form[aria-label="Search"] > div,
+form[aria-label="Search"] [data-testid="SearchBox_Search_Input_label"] {
+  border-radius: 9999px !important;
+  overflow: hidden;
+  background-clip: padding-box;
+}
+
+/* Trending block background */
+div[aria-label="Trending"],
+div[aria-label="Trending"] > div,
+div[aria-label="Trending"] > div > div,
+div[aria-label="Trending"] section,
+div[aria-label="Trending"] [role="region"] {
+  background-color: #a8d8ff !important;
+}
