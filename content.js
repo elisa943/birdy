@@ -18,7 +18,7 @@ const HIDE_SELECTORS = [
   'div[data-testid="news_sidebar"]'
 ];
 
-const HIDE_SELECTOR = HIDE_SELECTORS.join(',');
+const HIDE_SELECTORS_STRING = HIDE_SELECTORS.join(',');
 const LOGO_SELECTOR = 'a[aria-label="X"]';
 const MORE_BUTTON_SELECTOR = 'button[data-testid="AppTabBar_More_Menu"]';
 const SEARCH_FORM_SELECTOR = 'form[aria-label="Search"]';
@@ -31,23 +31,23 @@ const LOGO_BG_DARK = BIRDY_BG;
 const SETTINGS_LABEL = 'Settings';
 const SETTINGS_PATH = '/settings';
 const SEARCH_STYLES = {
-  backgroundColor: BIRDY_BG,
-  borderColor: BIRDY_BG,
-  boxShadow: 'none'
+  'background-color': BIRDY_BG,
+  'border-color': BIRDY_BG,
+  'box-shadow': 'none'
 };
 
 const isHTMLElement = (node) => node instanceof HTMLElement;
 
 const applyInlineStyles = (element, styles) => {
   Object.entries(styles).forEach(([property, value]) => {
-    if (element.style[property] !== value) {
-      element.style[property] = value;
+    if (element.style.getPropertyValue(property) !== value) {
+      element.style.setProperty(property, value);
     }
   });
 };
 
 const hideElements = () => {
-  const nodes = document.querySelectorAll(HIDE_SELECTOR);
+  const nodes = document.querySelectorAll(HIDE_SELECTORS_STRING);
   nodes.forEach((node) => {
     if (isHTMLElement(node) && node.style.display !== 'none') {
       node.style.setProperty('display', 'none', 'important');
@@ -108,9 +108,8 @@ const applySearchStyling = () => {
     return;
   }
 
-  const targets = [form, form.parentElement, form.parentElement?.parentElement].filter(
-    isHTMLElement
-  );
+  const parent = form.parentElement;
+  const targets = [form, parent, parent?.parentElement].filter(isHTMLElement);
   targets.forEach((node) => {
     applyInlineStyles(node, SEARCH_STYLES);
   });
