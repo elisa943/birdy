@@ -1,5 +1,5 @@
 :root {
-  --birdy-bg: #a8d8ff;
+  --birdy-bg: #e2eaee;
 }
 
 /* Select by stable attributes */
@@ -59,6 +59,11 @@ a[aria-label="X"] {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+  background-origin: content-box;
+  box-sizing: border-box;
+  padding: 2px;
+  overflow: visible;
+  aspect-ratio: 1 / 1;
 }
 
 a[aria-label="X"] svg {
@@ -72,20 +77,50 @@ a[aria-label="X"] svg {
   }
 }
 
+/* Button + icon color overrides */
+button[data-testid="tweetButtonInline"],
+button[data-testid="tweetButton"],
+button[data-testid="SideNav_NewTweet_Button"],
+a[data-testid="SideNav_NewTweet_Button"],
+button[data-testid$="-follow"] {
+  background-color: #2291bc !important;
+  border-color: #2291bc !important;
+  color: #ffffff !important;
+}
+
+button[data-testid="tweetButtonInline"] svg,
+button[data-testid="tweetButton"] svg,
+button[data-testid="SideNav_NewTweet_Button"] svg,
+a[data-testid="SideNav_NewTweet_Button"] svg,
+button[data-testid$="-follow"] svg {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+
+aside[aria-label="Primary"] a[role="link"]:not([data-testid="SideNav_NewTweet_Button"]),
+nav[aria-label="Primary"] a[role="link"]:not([data-testid="SideNav_NewTweet_Button"]) {
+  color: #2291bc !important;
+}
+
+aside[aria-label="Primary"] a[role="link"]:not([data-testid="SideNav_NewTweet_Button"]) svg,
+nav[aria-label="Primary"] a[role="link"]:not([data-testid="SideNav_NewTweet_Button"]) svg {
+  color: #2291bc !important;
+  fill: #2291bc !important;
+}
+
+button[data-testid="AppTabBar_More_Menu"],
+button[data-testid="AppTabBar_More_Menu"] svg,
+button[data-testid="AppTabBar_More_Menu"] * {
+  color: #2291bc !important;
+  fill: #2291bc !important;
+}
+
 /* Global background override */
 html,
 body,
 #react-root {
   background-color: var(--birdy-bg) !important;
 }
-
-/* Primary column background override */
-[data-testid="primaryColumn"],
-[data-testid="primaryColumn"] > div {
-  background-color: var(--birdy-bg) !important;
-}
-
-/* Settings page section backgrounds */
 section[aria-label="Section navigation"],
 section[aria-label="Section details"],
 section[aria-label="Section navigation"] > div,
@@ -119,6 +154,20 @@ section[aria-label="Section details"] [class~="r-6026j"] {
 [data-testid="primaryColumn"] [class~="r-14lw9ot"],
 [data-testid="primaryColumn"] [class~="r-6026j"] {
   background-color: var(--birdy-bg) !important;
+}
+
+div.r-14lw9ot.r-184en5c:has([data-testid="tweetTextarea_0_label"]) {
+  background-color: #ffffff !important;
+}
+
+[data-testid="primaryColumn"] div:has(> [data-testid="toolBar"]) {
+  background-color: #ffffff !important;
+}
+
+[data-testid="primaryColumn"] div:has([data-testid="toolBar"]):has([data-testid="tweetButtonInline"]),
+[data-testid="primaryColumn"] [data-testid="toolBar"],
+[data-testid="primaryColumn"] [data-testid^="ScrollSnap-"] {
+  background-color: #ffffff !important;
 }
 
 /* Separator/divider lines */

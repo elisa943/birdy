@@ -12,7 +12,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["images/twitter_logo.png", "images/twitter_logo2.png"],
+      "resources": ["images/twitter_logo.png", "images/twitter_logo3.png"],
       "matches": ["https://x.com/*", "https://twitter.com/*"]
     }
   ]

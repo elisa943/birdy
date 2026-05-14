@@ -23,11 +23,11 @@ const LOGO_SELECTOR = 'a[aria-label="X"]';
 const MORE_BUTTON_SELECTOR = 'button[data-testid="AppTabBar_More_Menu"]';
 const SEARCH_FORM_SELECTOR = 'form[aria-label="Search"]';
 const MORE_BUTTON_DATASET_KEY = 'birdySettingsConverted';
-const LOGO_FILENAME = 'twitter_logo2.png';
+const LOGO_FILENAME = 'twitter_logo3.png';
 const LOGO_PATH = `images/${LOGO_FILENAME}`;
 const LOGO_URL = chrome.runtime.getURL(LOGO_PATH);
 const FAVICON_URL = chrome.runtime.getURL(LOGO_PATH);
-const BIRDY_BG = '#a8d8ff';
+const BIRDY_BG = '#e2eaee';
 const LOGO_BG_DARK = BIRDY_BG;
 const SETTINGS_LABEL = 'Settings';
 const SETTINGS_PATH = '/settings';
@@ -76,6 +76,52 @@ const applyLogoSwap = () => {
   }
 };
 
+const faviconState = {
+  dataUrl: null,
+  isLoading: false
+};
+
+const buildSquareFavicon = async () => {
+  if (faviconState.dataUrl || faviconState.isLoading) {
+    return faviconState.dataUrl;
+  }
+
+  faviconState.isLoading = true;
+
+  try {
+    const image = new Image();
+    image.src = FAVICON_URL;
+    await image.decode();
+
+    const size = 64;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      return null;
+    }
+
+    ctx.clearRect(0, 0, size, size);
+
+    const scale = Math.min(size / image.width, size / image.height);
+    const drawWidth = image.width * scale;
+    const drawHeight = image.height * scale;
+    const dx = (size - drawWidth) / 2;
+    const dy = (size - drawHeight) / 2;
+
+    ctx.drawImage(image, dx, dy, drawWidth, drawHeight);
+
+    faviconState.dataUrl = canvas.toDataURL('image/png');
+    return faviconState.dataUrl;
+  } catch (error) {
+    return null;
+  } finally {
+    faviconState.isLoading = false;
+  }
+};
+
 const applyFaviconSwap = () => {
   if (location.hostname !== 'x.com') {
     return;
@@ -86,20 +132,27 @@ const applyFaviconSwap = () => {
     return;
   }
 
-  const icons = head.querySelectorAll('link[rel~="icon"]');
-  if (icons.length === 0) {
-    const link = document.createElement('link');
-    link.rel = 'icon';
-    link.type = 'image/png';
-    link.href = FAVICON_URL;
-    head.appendChild(link);
-    return;
-  }
+  buildSquareFavicon().then((dataUrl) => {
+    const href = dataUrl || FAVICON_URL;
+    const icons = head.querySelectorAll('link[rel~="icon"]');
 
-  icons.forEach((icon) => {
-    if (icon instanceof HTMLLinkElement && icon.href !== FAVICON_URL) {
-      icon.href = FAVICON_URL;
+    if (icons.length === 0) {
+      const link = document.createElement('link');
+      link.rel = 'icon';
+      link.type = 'image/png';
+      link.sizes = '64x64';
+      link.href = href;
+      head.appendChild(link);
+      return;
     }
+
+    icons.forEach((icon) => {
+      if (icon instanceof HTMLLinkElement && icon.href !== href) {
+        icon.type = 'image/png';
+        icon.sizes = '64x64';
+        icon.href = href;
+      }
+    });
   });
 };
 
