@@ -30,6 +30,14 @@ div:has(> div[data-testid="news_sidebar"]) {
   display: none !important;
 }
 
+/* Hide "Today's news" section */
+section[aria-label="Today's news"],
+div[aria-label="Today's news"],
+div:has(> section[aria-label="Today's news"]),
+div:has(> div[aria-label="Today's news"]) {
+  display: none !important;
+}
+
 /* More menu: keep only Settings and privacy */
 div[role="menu"] a:not([data-testid="settings"]) {
   display: none !important;
@@ -45,11 +53,15 @@ div[role="menu"] [role="separator"] {
 
 /* Hide "Who to follow" section */
 aside[aria-label="Who to follow"],
+section[aria-label="Who to follow"],
+div[aria-label="Who to follow"],
 a[href^="/i/connect_people"],
 div.r-1bro5k0 > aside[aria-label="Who to follow"],
 div.r-1bro5k0:has(aside[aria-label="Who to follow"]),
 div:has(> aside[aria-label="Who to follow"]),
-div:has(> div.r-1bro5k0 > aside[aria-label="Who to follow"]) {
+div:has(> div.r-1bro5k0 > aside[aria-label="Who to follow"]),
+div:has(> section[aria-label="Who to follow"]),
+div:has(> div[aria-label="Who to follow"]) {
   display: none !important;
 }
 
@@ -201,6 +213,8 @@ form[aria-label="Search"] [data-testid="SearchBox_Search_Input_label"] {
 
 form[aria-label="Search Settings"],
 form[aria-label="Search Settings"] > div,
+form[aria-label="Search Settings"] [data-testid="SearchBox_Search_Input_label"],
+form[aria-label="Search Settings"] [data-testid="SearchBox_Search_Input"],
 form[aria-label="Search Settings"] [role="combobox"],
 form[aria-label="Search Settings"] input {
   background-color: var(--birdy-bg) !important;
@@ -208,19 +222,11 @@ form[aria-label="Search Settings"] input {
 
 form[aria-label="Search Settings"],
 form[aria-label="Search Settings"] > div,
+form[aria-label="Search Settings"] [data-testid="SearchBox_Search_Input_label"],
 form[aria-label="Search Settings"] [role="combobox"] {
   border-radius: 9999px !important;
   overflow: hidden;
   background-clip: padding-box;
-}
-
-form[aria-label="Search Settings"] * {
-  background-color: transparent !important;
-}
-
-form[aria-label="Search Settings"],
-form[aria-label="Search Settings"] > div {
-  background-color: var(--birdy-bg) !important;
 }
 
 /* Trending block background */
